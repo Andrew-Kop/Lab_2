@@ -135,18 +135,18 @@ void Scheme::calculate_test(int n)
     vector<double> a;
     vector<double> d;
     vector<double> phi;
-
+    double epsilon = 0.0000000000001;
     double h = (pravGran - levGran) / n;
     for (int i = 0; i < n; i++)
     {
         if (levGran + h * i <= xi && levGran + h * (i + 1.0) >= xi)
         {
-            a.push_back(1 / ((1/h)*((((1 / k_test(levGran + h * i, xi) + 1 / k_test(xi - 0.00000000001, xi)) / 2) *  (xi - (levGran + h * i))
-                                         + ((1 / k_test(xi + 0.00000000001, xi) + 1 / k_test(levGran + h * (i + 1.0), xi)) / 2) * (levGran + h * (i + 1.0) - xi)))));
+            a.push_back(1 / ((1/h)*((((1 / k_test(levGran + h * i, xi) + 1 / k_test(xi - epsilon, xi)) / 2.0) *  (xi - (levGran + h * i))
+                                         + ((1 / k_test(xi + epsilon, xi) + 1 / k_test(levGran + h * (i + 1.0), xi)) / 2.0) * (levGran + h * (i + 1.0) - xi)))));
         }
         else
         {
-            a.push_back(1 / ((1 / k_test(levGran + h * i, xi) + 1 / k_test(levGran + h * (i + 1.0), xi)) / 2));
+            a.push_back(1 / ((1 / k_test(levGran + h * i, xi) + 1 / k_test(levGran + h * (i + 1.0), xi)) / 2.0));
         }
     }
 
@@ -154,15 +154,15 @@ void Scheme::calculate_test(int n)
     {
         if ((levGran + h * (i + 0.5)) <= xi && (levGran + h * (i + 1.5)) >= xi)
         {
-            phi.push_back((1 / h) * ((((f_test(levGran + h * (i + 0.5), xi) + f_test(xi - 0.00000000001, xi)) / 2) * (xi - (levGran + h * (i + 0.5)))) +
-                                     (((f_test(levGran + h * (i + 1.5), xi) + f_test(xi + 0.00000000001, xi)) / 2) * (levGran + h * (i + 1.5) - xi))));
-            d.push_back((1 / h) * ((((q_test(levGran + h * (i + 0.5), xi) + q_test(xi - 0.00000000001, xi)) / 2) * (xi - (levGran + h * (i + 0.5)))) +
-                                   (((q_test(levGran + h * (i + 1.5), xi) + q_test(xi + 0.00000000001, xi)) / 2) * ((levGran + h * (i + 1.5)) - xi))));
+            phi.push_back((1 / h) * ((((f_test(levGran + h * (i + 0.5), xi) + f_test(xi - epsilon, xi)) / 2.0) * (xi - (levGran + h * (i + 0.5)))) +
+                                     (((f_test(levGran + h * (i + 1.5), xi) + f_test(xi + epsilon, xi)) / 2.0) * (levGran + h * (i + 1.5) - xi))));
+            d.push_back((1 / h) * ((((q_test(levGran + h * (i + 0.5), xi) + q_test(xi - epsilon, xi)) / 2.0) * (xi - (levGran + h * (i + 0.5)))) +
+                                   (((q_test(levGran + h * (i + 1.5), xi) + q_test(xi + epsilon, xi)) / 2.0) * ((levGran + h * (i + 1.5)) - xi))));
         }
         else
         {
-            phi.push_back((f_test(levGran + h * (i + 0.5), xi) + f_test(levGran + h * (i + 1.5), xi)) / 2);
-            d.push_back((q_test(levGran + h * (i + 0.5), xi) + q_test(levGran + h * (i + 1.5), xi)) / 2);
+            phi.push_back((f_test(levGran + h * (i + 0.5), xi) + f_test(levGran + h * (i + 1.5), xi)) / 2.0);
+            d.push_back((q_test(levGran + h * (i + 0.5), xi) + q_test(levGran + h * (i + 1.5), xi)) / 2.0);
         }
     }
 
@@ -201,15 +201,15 @@ void Scheme::calculate_main(int n)
     vector<double> a2;
     vector<double> d2;
     vector<double> phi2;
-
+    double epsilon = 0.000000000001;
     double h1 = (pravGran - levGran) / n;
     double h2 = (pravGran - levGran) / (2.0*n);
     for (int i = 0; i < n; i++)
     {
         if (levGran + h1 * i <= xi && levGran + h1 * (i + 1.0) >= xi)
         {
-            a1.push_back(1 / ((1 / h1) * ((((1 / k_test(levGran + h1 * i, xi) + 1 / k_test(xi - 0.00000000001, xi)) / 2) * (xi - (levGran + h1 * i))
-                                           + ((1 / k_test(xi + 0.00000000001, xi) + 1 / k_test(levGran + h1 * (i + 1.0), xi)) / 2) * (levGran + h1 * (i + 1.0) - xi)))));
+            a1.push_back(1 / ((1 / h1) * ((((1 / k_test(levGran + h1 * i, xi) + 1 / k_test(xi - epsilon, xi)) / 2.0) * (xi - (levGran + h1 * i))
+                                           + ((1 / k_test(xi + epsilon, xi) + 1 / k_test(levGran + h1 * (i + 1.0), xi)) / 2.0) * (levGran + h1 * (i + 1.0) - xi)))));
         }
         else
         {
@@ -220,12 +220,12 @@ void Scheme::calculate_main(int n)
     {
         if (levGran + h2 * i <= xi && levGran + h2 * (i + 1.0) >= xi)
         {
-            a2.push_back(1 / ((1 / h2) * ((((1 / k_test(levGran + h2 * i, xi) + 1 / k_test(xi - 0.00000000001, xi)) / 2) * (xi - (levGran + h2 * i))
-                                           + ((1 / k_test(xi + 0.00000000001, xi) + 1 / k_test(levGran + h2 * (i + 1.0), xi)) / 2) * (levGran + h2 * (i + 1.0) - xi)))));
+            a2.push_back(1 / ((1 / h2) * ((((1 / k_test(levGran + h2 * i, xi) + 1 / k_test(xi - epsilon, xi)) / 2.0) * (xi - (levGran + h2 * i))
+                                           + ((1 / k_test(xi + epsilon, xi) + 1 / k_test(levGran + h2 * (i + 1.0), xi)) / 2.0) * (levGran + h2 * (i + 1.0) - xi)))));
         }
         else
         {
-            a2.push_back(1 / ((1 / k_test(levGran + h2 * i, xi) + 1 / k_test(levGran + h2 * (i + 1.0), xi)) / 2));
+            a2.push_back(1 / ((1 / k_test(levGran + h2 * i, xi) + 1 / k_test(levGran + h2 * (i + 1.0), xi)) / 2.0));
         }
     }
 
@@ -233,10 +233,10 @@ void Scheme::calculate_main(int n)
     {
         if ((levGran + h1 * (i + 0.5)) <= xi && (levGran + h1 * (i + 1.5)) >= xi)
         {
-            phi1.push_back((1 / h1) * ((((f_test(levGran + h1 * (i + 0.5), xi) + f_test(xi - 0.00000000001, xi)) / 2) * (xi - (levGran + h1 * (i + 0.5)))) +
-                                       (((f_test(levGran + h1 * (i + 1.5), xi) + f_test(xi + 0.00000000001, xi)) / 2) * (levGran + h1 * (i + 1.5) - xi))));
-            d1.push_back((1 / h1) * ((((q_test(levGran + h1 * (i + 0.5), xi) + q_test(xi - 0.00000000001, xi)) / 2) * (xi - (levGran + h1 * (i + 0.5)))) +
-                                     (((q_test(levGran + h1 * (i + 1.5), xi) + q_test(xi + 0.00000000001, xi)) / 2) * ((levGran + h1 * (i + 1.5)) - xi))));
+            phi1.push_back((1 / h1) * ((((f_test(levGran + h1 * (i + 0.5), xi) + f_test(xi - epsilon, xi)) / 2) * (xi - (levGran + h1 * (i + 0.5)))) +
+                                       (((f_test(levGran + h1 * (i + 1.5), xi) + f_test(xi + epsilon, xi)) / 2) * (levGran + h1 * (i + 1.5) - xi))));
+            d1.push_back((1 / h1) * ((((q_test(levGran + h1 * (i + 0.5), xi) + q_test(xi - epsilon, xi)) / 2) * (xi - (levGran + h1 * (i + 0.5)))) +
+                                     (((q_test(levGran + h1 * (i + 1.5), xi) + q_test(xi + epsilon, xi)) / 2) * ((levGran + h1 * (i + 1.5)) - xi))));
         }
         else
         {
@@ -248,13 +248,13 @@ void Scheme::calculate_main(int n)
     {
         if ((levGran + h2 * (i + 0.5)) <= xi && (levGran + h2 * (i + 1.5)) >= xi)
         {
-            phi2.push_back((1 / h2) * ((((f_test(levGran + h2 * (i + 0.5), xi) + f_test(xi - 0.00000000001, xi)) / 2) * (xi - (levGran + h2 * (i + 0.5)))) +
-                                       (((f_test(levGran + h2 * (i + 1.5), xi) + f_test(xi + 0.00000000001, xi)) / 2) * (levGran + h2 * (i + 1.5) - xi))));
-            d2.push_back((1 / h2) * ((((q_test(levGran + h2 * (i + 0.5), xi) + q_test(xi - 0.00000000001, xi)) / 2) * (xi - (levGran + h2 * (i + 0.5)))) +
-                                     (((q_test(levGran + h2 * (i + 1.5), xi) + q_test(xi + 0.00000000001, xi)) / 2) * ((levGran + h2 * (i + 1.5)) - xi))));
+            phi2.push_back((1 / h2) * ((((f_test(levGran + h2 * (i + 0.5), xi) + f_test(xi - epsilon, xi)) / 2.0) * (xi - (levGran + h2 * (i + 0.5)))) +
+                                       (((f_test(levGran + h2 * (i + 1.5), xi) + f_test(xi + epsilon, xi)) / 2.0) * (levGran + h2 * (i + 1.5) - xi))));
+            d2.push_back((1 / h2) * ((((q_test(levGran + h2 * (i + 0.5), xi) + q_test(xi - epsilon, xi)) / 2.0) * (xi - (levGran + h2 * (i + 0.5)))) +
+                                     (((q_test(levGran + h2 * (i + 1.5), xi) + q_test(xi + epsilon, xi)) / 2.0) * ((levGran + h2 * (i + 1.5)) - xi))));
         }
-        phi2.push_back((f_main(levGran + h2 * (i + 0.5), xi) + f_main(levGran + h2 * (i + 1.5), xi)) / 2);
-        d2.push_back((q_main(levGran + h2 * (i + 0.5), xi) + q_main(levGran + h2 * (i + 1.5), xi)) / 2);
+        phi2.push_back((f_main(levGran + h2 * (i + 0.5), xi) + f_main(levGran + h2 * (i + 1.5), xi)) / 2.0);
+        d2.push_back((q_main(levGran + h2 * (i + 0.5), xi) + q_main(levGran + h2 * (i + 1.5), xi)) / 2.0);
     }
 
     vector<double> A1;
