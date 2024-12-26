@@ -1,5 +1,6 @@
 #include "schema.h"
 
+//k(x) основная
 double k_main(double x, double xi)
 {
     if (x <= xi)
@@ -12,6 +13,7 @@ double k_main(double x, double xi)
     }
 }
 
+//q(x) основная
 double q_main(double x, double xi)
 {
     if (x <= xi)
@@ -24,6 +26,7 @@ double q_main(double x, double xi)
     }
 }
 
+//f(x) основная
 double f_main(double x, double xi)
 {
     if (x <= xi)
@@ -36,6 +39,7 @@ double f_main(double x, double xi)
     }
 }
 
+//k(x) тестовая
 double k_test(double x, double xi)
 {
     if (x <= xi)
@@ -48,6 +52,7 @@ double k_test(double x, double xi)
     }
 }
 
+//q(x) тестовая
 double q_test(double x, double xi)
 {
     if (x <= xi)
@@ -60,6 +65,7 @@ double q_test(double x, double xi)
     }
 }
 
+//f(x) тестовая
 double f_test(double x, double xi)
 {
     if (x <= xi)
@@ -73,7 +79,7 @@ double f_test(double x, double xi)
 }
 
 
-
+//вычисление трёхдиагональной матрицы с помощью метода прогонки
 vector<double> solveMatrix(vector<double> A, vector<double>& C, vector<double> B, vector<double> Fi, double mu1, double mu2, int n)
 {
     vector<double> y(n + 1);
@@ -97,6 +103,8 @@ vector<double> solveMatrix(vector<double> A, vector<double>& C, vector<double> B
     return y;
 }
 
+//вычисление истинного решения для стационарного уравнения теплопроводности
+//levGran - левая граница, pravGran - правая граница, xi - точка разрыва, n - размерность сетки
 vector<double> calc_true_sol(double levGran, double pravGran, double xi, double n)
 {
     const double C1 = -0.08535083927882968;
@@ -188,6 +196,8 @@ void Scheme::calculate_test(int n)
     }
 }
 
+//вычисление численных траекторий для основной задачи
+//n - размерность сетки
 void Scheme::calculate_main(int n)
 {
     x.clear();
@@ -253,8 +263,11 @@ void Scheme::calculate_main(int n)
             d2.push_back((1 / h2) * ((((q_test(levGran + h2 * (i + 0.5), xi) + q_test(xi - epsilon, xi)) / 2.0) * (xi - (levGran + h2 * (i + 0.5)))) +
                                      (((q_test(levGran + h2 * (i + 1.5), xi) + q_test(xi + epsilon, xi)) / 2.0) * ((levGran + h2 * (i + 1.5)) - xi))));
         }
-        phi2.push_back((f_main(levGran + h2 * (i + 0.5), xi) + f_main(levGran + h2 * (i + 1.5), xi)) / 2.0);
-        d2.push_back((q_main(levGran + h2 * (i + 0.5), xi) + q_main(levGran + h2 * (i + 1.5), xi)) / 2.0);
+        else
+        {
+            phi2.push_back((f_main(levGran + h2 * (i + 0.5), xi) + f_main(levGran + h2 * (i + 1.5), xi)) / 2);
+            d2.push_back((q_main(levGran + h2 * (i + 0.5), xi) + q_main(levGran + h2 * (i + 1.5), xi)) / 2);
+        }
     }
 
     vector<double> A1;
